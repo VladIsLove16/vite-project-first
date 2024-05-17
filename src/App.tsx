@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
-import { Button, NavLinkProps } from 'react-bootstrap';
+import { Button, Card, NavLinkProps } from 'react-bootstrap';
 import { SimpleButton } from './Components/SimpleButton';
-import {ReduxTest} from './redux/ValueChanger'
+import {ReduxTest} from './Components/ValueChanger'
 import { useAppSelector } from './redux/Hooks';
 import AuthWindow from './Components/AuthWindow';
+import CardInCart from './Components/CardInCart';
 export interface Raiting{
   rate: number
   count : number
@@ -47,12 +48,8 @@ function App() {
   //   </>
   // )
     const [data,setData] = useState<Data[]>();
-
-    const [user, setUser] = useState({name:"Tom", age: 36});
-     
+    const [user, setUser] = useState({name:"None", age: 0});
    function handleNameChange(event: { target: { value: any; }; }) { setUser({ name: event.target.value, age: user.age }); }
-  
-     
    function handleAgeChange(event: { target: { value: any; }; }) {   
       setUser({name: user.name, age: event.target.value});   
    }
@@ -67,28 +64,32 @@ function App() {
             })
   },
   [user.age]);
+ 
   const listItems = data?.map((item: Data ) =>
-        <h1>{item.title}</h1>
+        <h1>{item.price}</h1>
         );
-       const s =useAppSelector((state)=> state.counter.value)
-
-
-    return (
+       const CartItems = useAppSelector((state)=> state.cartSlice.Data)
+      
+      const CardsList =[];
+        if(data!=undefined)
+          {
+              for (let i = 0; i < data.length; i++) {
+                CardsList.push(CardInCart(data[i]));
+            }
+          }
+    return (  
       <html>
         <head>
     <title>METANIT.COM</title>
     </head>
-      <div>
-        <h3>Имя: {user.name}</h3>
-        <h3>Возраст: {user.age}</h3>    
-         
+      <div>   
         <div>
-          <p>Имя: <input type="text" value={user.name} onChange={handleNameChange} /></p>
-          <p>Возраст: <input type="number" min="0" max="110" value={user.age} onChange={handleAgeChange} /></p>
         </div>
-        <>{s}</>
-        <ReduxTest></ReduxTest>
-        <AuthWindow></AuthWindow>
+        {CardsList}
+        {CartItems}
+        {/* <>{s}</> */}
+        {/* <ReduxTest></ReduxTest> */}
+        {/* <AuthWindow></AuthWindow> */}
         
       </div>
       </html>

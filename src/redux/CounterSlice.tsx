@@ -10,6 +10,7 @@ export interface CounterState {
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
+  
   reducers: {
     increment: state => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
