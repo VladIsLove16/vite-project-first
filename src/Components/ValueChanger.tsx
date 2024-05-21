@@ -1,7 +1,6 @@
 import { Button } from "react-bootstrap";
 import { useAppDispatch } from "../redux/Hooks";
-import { increment,decrement,incrementByAmount } from "../redux/CounterSlice";
-import { login } from "../redux/AuthSlice";
+import { decrement,incrementByAmount } from "../redux/CounterSlice";
 export function ReduxTest()
 {
     console.log("redux test")

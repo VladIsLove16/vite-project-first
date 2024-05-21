@@ -1,6 +1,4 @@
 import { createSlice,PayloadAction } from '@reduxjs/toolkit'
- import { counterSlice } from './CounterSlice'
-import { defaultSerializeQueryArgs } from '@reduxjs/toolkit/query'
 export interface Raiting{
   rate: number
   count : number
@@ -39,20 +37,21 @@ export const cartSlice = createSlice({
       if(state.Data==undefined)
       {
         state.Data=[];
-        state.Data.push({data: action.payload,count:1})
       }
-      else if(state.Data[0]==undefined)
-      {
-        state.Data[0]={data: action.payload,count:1};
-      }
-      else if(state.Data[0].count==0)
-      {
+      state.Data.push({data: action.payload,count:1})
 
-        state.Data.push({data: action.payload,count:1})
-      }
-      else{
-        state.Data[0].count++
-      }
+      // if(state.Data[0]==undefined)
+      // {
+      //   state.Data[0]={data: action.payload,count:1};
+      // }
+      // else if(state.Data[0].count==0)
+      // {
+
+      //   state.Data.push({data: action.payload,count:1})
+      // }
+      // else{
+      //   state.Data[0].count++
+      // }
      
       console.log("addedToKart")
     }

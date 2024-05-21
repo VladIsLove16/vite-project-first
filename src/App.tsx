@@ -1,30 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
-import { Button, Card, NavLinkProps } from 'react-bootstrap';
-import { SimpleButton } from './Components/SimpleButton';
-import {ReduxTest} from './Components/ValueChanger'
 import { useAppSelector } from './redux/Hooks';
-import AuthWindow from './Components/AuthWindow';
+import { Data  } from './redux/CartSlice';
 import CardInCart from './Components/CardInCart';
-export interface Raiting{
-  rate: number
-  count : number
-}
-export interface Data{
-  id: number
-  title: string
-  price: string 
-  description : string
-  category : Category
-  image?: HTMLImageElement
-  rating : Raiting
-}
-export enum Category {
-  Electronics = "electronics",
-  Jewelery = "jewelery",
-  MenSClothing = "men's clothing",
-  WomenSClothing = "women's clothing"
-}
+import AuthWindow from '../src/Components/AuthWindow'
 function App() {
   // type id  = number | string;
   // let myId: id = "adad";
@@ -68,15 +47,22 @@ function App() {
   const listItems = data?.map((item: Data ) =>
         <h1>{item.price}</h1>
         );
-       const CartItems = useAppSelector((state)=> state.cartSlice.Data)
       
       const CardsList =[];
+      
         if(data!=undefined)
           {
               for (let i = 0; i < data.length; i++) {
                 CardsList.push(CardInCart(data[i]));
             }
           }
+         
+       const CartItems = useAppSelector((state)=> state.cartSlice.Data)
+      const cartHtml =   CartItems?.map((item,i) =>
+      CardInCart(item.data)
+        );
+        const select1 = useAppSelector((state)=>state.auth);
+        
     return (  
       <html>
         <head>
@@ -85,8 +71,20 @@ function App() {
       <div>   
         <div>
         </div>
-        {CardsList}
-        {CartItems}
+        <AuthWindow></AuthWindow>
+        <div className="grid-container">
+        <h2 className="heading">Покупки  </h2>
+          {CardsList}  
+          <h2 className="heading">Корзина</h2>
+       
+         {
+          CartItems.map((item,i)=>{
+            return (CardInCart(item.data))
+          }) }
+          
+       </div>
+       <div>
+       </div>
         {/* <>{s}</> */}
         {/* <ReduxTest></ReduxTest> */}
         {/* <AuthWindow></AuthWindow> */}

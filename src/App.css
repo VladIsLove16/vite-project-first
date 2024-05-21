@@ -17,7 +17,16 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
-
+.text-container {
+  width: 200px; /* Ширина контейнера */
+  height: 60px; /* Высота контейнера */
+  overflow: hidden; /* Обрезка текста */
+  display: -webkit-box; /* Для многострочности */
+  -webkit-line-clamp: 3; /* Количество строк */
+  -webkit-box-orient: vertical; /* Вертикальная ориентация */
+  text-overflow: ellipsis; /* Замена обрезанного текста на многоточие */
+  font-size: 16px; /* Размер шрифта */
+}
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -39,4 +48,19 @@
 
 .read-the-docs {
   color: #888;
+}
+/* App.css */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 2fr); /* Две колонки одинаковой ширины */
+  gap: 10px; /* Отступы между элементами */
+  row-gap: 50px; /* Большой отступ между рядами */
+}
+
+.item {
+  padding: 10px;
+  border: 1px solid #000;
+}
+.heading {
+  grid-column: span 3; /* Заголовок занимает три колонки */
 }
