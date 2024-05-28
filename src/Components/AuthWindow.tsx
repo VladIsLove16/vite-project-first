@@ -2,19 +2,20 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../redux/Hooks';
-import { login,AuthState } from '../redux/AuthSlice';
+import { login,AuthState, tryRegister } from '../redux/AuthSlice';
 import { useState } from 'react';
-
+import {User} from '../redux/AuthSlice'
+import axios from 'axios'
 function FormFloatingBasicExample() {
    const dispath = useAppDispatch();
-   const select1 = useAppSelector((state)=>state.auth.isLogin);
-   const [user, setUser] = useState({name:"None", age: 0});
-
-   function handleNameChange(event: { target: { value: any; }; }) { setUser({ name: event.target.value, age: user.age }); }
-   function handleAgeChange(event: { target: { value: any; }; }) {   
-      setUser({name: user.name, age: event.target.value});   
+   const logined = useAppSelector((state)=>state.auth.isLogin);
+   const [user, setUser] = useState<User>({login : "",password: ""});
+    const a= user.login;
+   function handleLoginChange(event: { target: { value: any; }; }) { setUser({ login: event.target.value, password: user.password }); }
+   function handlePasswordChange(event: { target: { value: any; }; }) {   
+      setUser({login: user.login, password: event.target.value});   
    }
-   if(select1==false)
+   if(logined==false)
   {return (
     <>
       <FloatingLabel
@@ -22,21 +23,37 @@ function FormFloatingBasicExample() {
         label="Email address"
         className="mb-3"
       >
-        <Form.Control type="email" placeholder="name@example.com" />
+        <Form.Control type="email" placeholder="name@example.com" onChange={handleLoginChange} />
       </FloatingLabel>
       <FloatingLabel controlId="floatingPassword" label="Password">
-        <Form.Control type="password" placeholder="Password" />
+        <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange} />
       </FloatingLabel>
+      <Button variant="primary" onClick={()=>{
+        console.log("clicked register with " + ( user.login) + ( user.password) )
+        dispath(tryRegister(user))
+        }}>
+      register
+       </Button>
+      <Button variant="primary" onClick={()=>{
+         console.log("clicked login with " + ( user.login) + ( user.password) )
 
-      <Button variant="primary" onClick={()=>dispath(login( {login : "a",password : "a"}))}>
+        dispath(login(user))
+      }
+    }>
       login
        </Button>
+       
     </>
   );
 }
 else return (
   <h1>
-    Login: {}
+  <h2>
+    Login: {user.login}
+  </h2>
+  <h2>
+    Pass: {user.password}
+  </h2>
   </h1>
 )
 }
